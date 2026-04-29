@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emirhan – Unit 5 Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a12;
+    --card: #13131e;
+    --card2: #1a1a28;
+    --border: #252535;
+    --accent: #7c3aed;
+    --accent2: #a855f7;
+    --punch: #f59e0b;
+    --green: #4ade80;
+    --red: #f87171;
+    --text: #f0f0f8;
+    --muted: #6060a0;
+    --glow: rgba(124,58,237,0.3);
+    --glow2: rgba(245,158,11,0.2);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 1rem 4rem;
+    color: var(--text);
+    background-image:
+      radial-gradient(ellipse at 15% 10%, rgba(124,58,237,0.15) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 85%, rgba(245,158,11,0.08) 0%, transparent 45%);
+  }
+
+  .container { width: 100%; max-width: 540px; animation: fadeUp 0.5s ease both; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── HEADER ── */
+  .header { margin-bottom: 2rem; }
+  .header-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .poke-ball {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(180deg, #ef4444 50%, #fff 50%);
+    border: 3px solid #1a1a28;
+    position: relative; flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(239,68,68,0.4);
+  }
+  .poke-ball::after {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px; height: 10px;
+    background: #fff; border-radius: 50%;
+    border: 2px solid #1a1a28;
+  }
+  .gloves {
+    font-size: 22px; filter: drop-shadow(0 0 6px rgba(245,158,11,0.5));
+  }
+  .tag {
+    display: inline-block;
+    background: rgba(124,58,237,0.2);
+    border: 1px solid rgba(124,58,237,0.4);
+    color: #c4b5fd;
+    font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 4px 10px;
+    border-radius: 100px; margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #f0f0f8 0%, #c4b5fd 60%, #f59e0b 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 4px;
+  }
+  .subtitle { font-size: 13px; color: var(--muted); }
+
+  /* ── NAME SCREEN ── */
+  .name-screen {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 22px; padding: 2rem 1.5rem;
+    animation: fadeUp 0.4s ease both;
+  }
+  .name-screen h2 {
+    font-family: 'Syne', sans-serif; font-size: 20px;
+    margin-bottom: 6px; color: var(--text);
+  }
+  .name-screen p { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; }
+  .name-input {
+    width: 100%; padding: 14px 16px;
+    background: var(--card2); border: 1.5px solid var(--border);
+    border-radius: 12px; color: var(--text);
+    font-size: 16px; font-family: 'DM Sans', sans-serif;
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 12px;
+  }
+  .name-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+  .name-input.error { border-color: var(--red); }
+
+  /* ── BUTTONS ── */
+  .primary-btn {
+    width: 100%; padding: 14px; border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 14px; cursor: pointer;
+    font-size: 15px; font-weight: 600;
+    font-family: 'DM Sans', sans-serif; color: #fff;
+    transition: all 0.2s; box-shadow: 0 0 24px var(--glow);
+    letter-spacing: 0.02em;
+  }
+  .primary-btn:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 6px 28px var(--glow); }
+
+  /* ── MODE BAR ── */
+  .mode-bar {
+    display: flex; gap: 8px; margin-bottom: 1.5rem;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 5px;
+  }
+  .mode-btn {
+    flex: 1; padding: 10px 8px; border: none;
+    background: transparent; border-radius: 10px; cursor: pointer;
+    font-size: 12.5px; font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--muted); transition: all 0.2s;
+    line-height: 1.3;
+  }
+  .mode-btn.active {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff; box-shadow: 0 0 16px var(--glow);
+  }
+
+  /* ── PROGRESS ── */
+  .progress-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px; font-size: 12px; color: var(--muted);
+  }
+  .progress-track {
+    height: 5px; background: var(--border); border-radius: 5px;
+    margin-bottom: 1.25rem; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 5px;
+    background: linear-gradient(90deg, var(--accent), var(--punch));
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 0 10px var(--glow);
+  }
+  .streak-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.35);
+    color: var(--punch); font-size: 12px; font-weight: 600;
+    padding: 3px 9px; border-radius: 100px;
+  }
+  .score-badge {
+    color: var(--accent2); font-weight: 700; font-size: 13px;
+  }
+
+  /* ── QUESTION CARD ── */
+  .question-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 22px; padding: 1.75rem 1.5rem; margin-bottom: 10px;
+    position: relative; overflow: hidden;
+  }
+  .question-card::before {
+    content: ''; position: absolute; top: -50px; right: -50px;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, rgba(124,58,237,0.18), transparent 70%);
+    pointer-events: none;
+  }
+  .question-card::after {
+    content: ''; position: absolute; bottom: -30px; left: -30px;
+    width: 100px; height: 100px;
+    background: radial-gradient(circle, rgba(245,158,11,0.1), transparent 70%);
+    pointer-events: none;
+  }
+  .question-label {
+    font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;
+  }
+  .question-word {
+    font-family: 'Syne', sans-serif; font-size: 28px;
+    font-weight: 700; color: var(--text); line-height: 1.25;
+    position: relative; z-index: 1;
+  }
+
+  /* ── OPTIONS ── */
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .opt-btn {
+    padding: 14px 12px; border: 1.5px solid var(--border);
+    background: var(--card); border-radius: 14px; cursor: pointer;
+    font-size: 13px; font-family: 'DM Sans', sans-serif; font-weight: 500;
+    color: var(--text); text-align: left; transition: all 0.15s; line-height: 1.4;
+  }
+  .opt-btn:hover:not(:disabled) {
+    border-color: var(--accent); background: rgba(124,58,237,0.1);
+    transform: translateY(-2px); box-shadow: 0 4px 12px var(--glow);
+  }
+  .opt-btn.correct {
+    background: rgba(74,222,128,0.12); border-color: #4ade80;
+    color: #4ade80; box-shadow: 0 0 12px rgba(74,222,128,0.2);
+  }
+  .opt-btn.wrong {
+    background: rgba(248,113,113,0.12); border-color: #f87171;
+    color: #f87171;
+  }
+  .opt-btn:disabled { cursor: default; transform: none !important; box-shadow: none !important; }
+
+  /* ── FEEDBACK ── */
+  .feedback {
+    font-size: 14px; min-height: 22px; margin-bottom: 8px;
+    color: var(--muted); display: flex; align-items: center; gap: 6px;
+  }
+  .feedback.ok  { color: var(--green); font-weight: 600; }
+  .feedback.nok { color: var(--red); font-weight: 500; }
+
+  /* ── NEXT BTN ── */
+  .next-btn {
+    width: 100%; padding: 14px; border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 14px; cursor: pointer; font-size: 15px; font-weight: 600;
+    font-family: 'DM Sans', sans-serif; color: #fff; display: none;
+    transition: all 0.2s; box-shadow: 0 0 20px var(--glow);
+  }
+  .next-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+  /* ── RESULT ── */
+  .result-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 24px; padding: 2.5rem 1.5rem; text-align: center;
+    animation: fadeUp 0.4s ease both; position: relative; overflow: hidden;
+  }
+  .result-card::before {
+    content: ''; position: absolute; top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(124,58,237,0.2), transparent 70%);
+    pointer-events: none;
+  }
+  .result-emoji { font-size: 52px; margin-bottom: 12px; }
+  .result-name { font-size: 14px; color: var(--muted); margin-bottom: 4px; }
+  .result-score {
+    font-family: 'Syne', sans-serif; font-size: 68px; font-weight: 800;
+    background: linear-gradient(135deg, #f0f0f8, var(--accent2), var(--punch));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; line-height: 1;
+    animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes popIn {
+    0%   { transform: scale(0.4); opacity: 0; }
+    70%  { transform: scale(1.08); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .result-pct { font-size: 13px; color: var(--muted); margin: 6px 0 4px; }
+  .result-modus { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .result-msg { font-size: 15px; color: #ccc; margin-bottom: 1rem; line-height: 1.5; }
+
+  .send-status {
+    font-size: 13px; color: var(--muted); margin-bottom: 1.5rem;
+    min-height: 22px; display: flex; align-items: center;
+    justify-content: center; gap: 6px;
+  }
+  .send-status.ok  { color: var(--green); }
+  .send-status.err { color: var(--red); }
+
+  .result-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .restart-btn {
+    padding: 12px 20px; border: 1.5px solid var(--border);
+    background: var(--card2); border-radius: 12px; cursor: pointer;
+    font-size: 14px; font-weight: 500;
+    font-family: 'DM Sans', sans-serif; color: var(--text); transition: all 0.2s;
+  }
+  .restart-btn:hover { border-color: var(--accent); background: rgba(124,58,237,0.1); }
+  .restart-btn.primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-color: transparent; box-shadow: 0 0 16px var(--glow);
+  }
+  .restart-btn.primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* ── SPINNER ── */
+  .spinner {
+    width: 14px; height: 14px; border: 2px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin 0.7s linear infinite; display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="header-top">
+      <div class="poke-ball"></div>
+      <span class="gloves">🥊</span>
+    </div>
+    <div class="tag">📚 Unit 5 · Englisch Klasse 5</div>
+    <h1>Vokabel-Challenge</h1>
+    <p class="subtitle">30 zufällige Fragen · Jedes Mal ein anderer Mix</p>
+  </div>
+  <div id="quiz-area"></div>
+</div>
+
+<script>
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbyNvOHkOTYftaRl_v17anhArslQn4oaQtFg34MF7ztZ6JXwKuLzccCmwfZV5le4fAZOew/exec";
+
+const vocab = [
+  // Action / Story words
+  { en: "to scream", de: "schreien / kreischen", de2: ["rennen","rufen","flüstern"], en2: ["to run","to call","to whisper"] },
+  { en: "to run", de: "rennen / laufen", de2: ["schreien","springen","kriechen"], en2: ["to scream","to jump","to crawl"] },
+  { en: "out", de: "heraus", de2: ["hinein","oben","unten"], en2: ["in","up","down"] },
+  { en: "why", de: "warum", de2: ["wann","wo","wie"], en2: ["when","where","how"] },
+  { en: "help", de: "die Hilfe", de2: ["die Gefahr","die Kraft","die Hoffnung"], en2: ["danger","strength","hope"] },
+  { en: "about", de: "ungefähr / etwa", de2: ["genau","weit","sofort"], en2: ["exactly","far","immediately"] },
+  { en: "tall", de: "groß / hoch", de2: ["klein","breit","lang"], en2: ["small","wide","long"] },
+  { en: "police officer", de: "der Polizeibeamte", de2: ["der Feuerwehrmann","der Arzt","der Lehrer"], en2: ["firefighter","doctor","teacher"] },
+  { en: "large", de: "groß", de2: ["klein","schmal","kurz"], en2: ["small","narrow","short"] },
+  { en: "closed", de: "gesperrt / geschlossen", de2: ["offen","leer","kaputt"], en2: ["open","empty","broken"] },
+  { en: "shopping centre", de: "das Einkaufszentrum", de2: ["das Sportzentrum","die Bibliothek","das Rathaus"], en2: ["sports centre","library","town hall"] },
+  { en: "toy", de: "das Spielzeug", de2: ["das Werkzeug","das Fahrzeug","das Gerät"], en2: ["tool","vehicle","device"] },
+  { en: "police", de: "die Polizei", de2: ["die Feuerwehr","die Armee","der Zoll"], en2: ["fire brigade","army","customs"] },
+  { en: "to call", de: "rufen / anrufen", de2: ["schreiben","flüstern","singen"], en2: ["to write","to whisper","to sing"] },
+  { en: "if", de: "wenn / falls", de2: ["weil","obwohl","bevor"], en2: ["because","although","before"] },
+  { en: "to kick", de: "schießen / treten", de2: ["werfen","fangen","tragen"], en2: ["to throw","to catch","to carry"] },
+  { en: "ball", de: "der Ball", de2: ["der Ring","der Stock","das Netz"], en2: ["ring","stick","net"] },
+  { en: "to score", de: "ein Tor schießen / punkten", de2: ["verlieren","foulen","passen"], en2: ["to lose","to foul","to pass"] },
+  { en: "goal", de: "das Tor / das Ziel", de2: ["die Ecke","der Pfahl","die Linie"], en2: ["corner","post","line"] },
+  { en: "back", de: "zurück", de2: ["vorwärts","seitwärts","hinauf"], en2: ["forward","sideways","up"] },
+  { en: "safe", de: "sicher / in Sicherheit", de2: ["gefährlich","verloren","verletzt"], en2: ["dangerous","lost","injured"] },
+  { en: "everyone", de: "jeder", de2: ["niemand","jemand","keiner"], en2: ["nobody","somebody","none"] },
+  { en: "lion", de: "der Löwe", de2: ["der Tiger","der Elefant","der Affe"], en2: ["tiger","elephant","monkey"] },
+  { en: "still", de: "immer noch / noch", de2: ["nie","schon","bald"], en2: ["never","already","soon"] },
+  { en: "to be missing", de: "fehlen", de2: ["erscheinen","ankommen","warten"], en2: ["to appear","to arrive","to wait"] },
+  { en: "café", de: "das Café", de2: ["die Bäckerei","die Metzgerei","der Kiosk"], en2: ["bakery","butcher's","kiosk"] },
+  { en: "sports centre", de: "das Sportzentrum", de2: ["das Einkaufszentrum","das Jugendzentrum","das Kulturzentrum"], en2: ["shopping centre","youth centre","arts centre"] },
+  // Transport
+  { en: "plane", de: "das Flugzeug", de2: ["das Schiff","der Zug","das Motorrad"], en2: ["ship","train","motorbike"] },
+  { en: "boat", de: "das Boot", de2: ["das Flugzeug","die Fähre","das Taxi"], en2: ["plane","ferry","taxi"] },
+  { en: "air", de: "die Luft", de2: ["das Wasser","die Erde","das Feuer"], en2: ["water","earth","fire"] },
+  { en: "ground", de: "der Boden / der Erdboden", de2: ["die Decke","die Wand","das Dach"], en2: ["ceiling","wall","roof"] },
+  { en: "long", de: "lang / lange", de2: ["kurz","breit","hoch"], en2: ["short","wide","high"] },
+  { en: "bus stop", de: "die Bushaltestelle", de2: ["der Bahnhof","der Flughafen","der Hafen"], en2: ["train station","airport","harbour"] },
+  { en: "by bike", de: "mit dem Fahrrad", de2: ["mit dem Auto","mit dem Bus","zu Fuß"], en2: ["by car","by bus","on foot"] },
+  { en: "to get around", de: "herumkommen", de2: ["ankommen","abfahren","umsteigen"], en2: ["to arrive","to depart","to change"] },
+  { en: "to ride", de: "fahren / reiten", de2: ["laufen","fliegen","schwimmen"], en2: ["to walk","to fly","to swim"] },
+  { en: "skateboard", de: "das Skateboard", de2: ["das Surfbrett","das Snowboard","das Fahrrad"], en2: ["surfboard","snowboard","bicycle"] },
+  { en: "to drive", de: "fahren / treiben", de2: ["fliegen","segeln","rudern"], en2: ["to fly","to sail","to row"] },
+  { en: "work", de: "die Arbeit", de2: ["die Schule","die Freizeit","das Hobby"], en2: ["school","free time","hobby"] },
+  { en: "tunnel", de: "der Tunnel", de2: ["die Brücke","die Kreuzung","die Kurve"], en2: ["bridge","crossing","bend"] },
+  { en: "important", de: "wichtig / einflussreich", de2: ["unwichtig","langweilig","einfach"], en2: ["unimportant","boring","easy"] },
+  { en: "news", de: "die Nachrichten", de2: ["die Musik","der Sport","der Film"], en2: ["music","sport","film"] },
+  { en: "kangaroo", de: "das Känguru", de2: ["das Koala","das Krokodil","der Dingo"], en2: ["koala","crocodile","dingo"] },
+  { en: "hole", de: "das Loch", de2: ["der Hügel","der Graben","die Mauer"], en2: ["hill","ditch","wall"] },
+  { en: "fence", de: "der Zaun", de2: ["die Hecke","das Tor","die Mauer"], en2: ["hedge","gate","wall"] },
+  { en: "zoo", de: "der Zoo / der Tierpark", de2: ["der Park","der Wald","die Farm"], en2: ["park","forest","farm"] },
+  { en: "some", de: "ein paar / einige", de2: ["viele","alle","keine"], en2: ["many","all","none"] },
+  { en: "staff", de: "das Personal / die Belegschaft", de2: ["die Kunden","die Gäste","die Schüler"], en2: ["customers","guests","students"] },
+  { en: "pizza", de: "die Pizza", de2: ["der Burger","das Sandwich","die Pasta"], en2: ["burger","sandwich","pasta"] },
+  // Directions
+  { en: "car park", de: "der Parkplatz", de2: ["die Tankstelle","die Werkstatt","die Garage"], en2: ["petrol station","garage","workshop"] },
+  { en: "through", de: "durch", de2: ["um...herum","entlang","über"], en2: ["around","along","over"] },
+  { en: "first", de: "erste / erster / erstes", de2: ["zweite","letzte","nächste"], en2: ["second","last","next"] },
+  { en: "crossing", de: "die Kreuzung", de2: ["die Kurve","die Ampel","der Kreisverkehr"], en2: ["bend","traffic light","roundabout"] },
+  { en: "on the right", de: "auf der rechten Seite / rechts", de2: ["links","geradeaus","gegenüber"], en2: ["on the left","straight on","opposite"] },
+  { en: "to take", de: "dauern", de2: ["kosten","brauchen","bedeuten"], en2: ["to cost","to need","to mean"] },
+  { en: "You're welcome", de: "Gern geschehen", de2: ["Entschuldigung","Bitte","Danke"], en2: ["Sorry","Please","Thank you"] },
+  { en: "to cross", de: "überqueren", de2: ["abbiegen","weitergehen","anhalten"], en2: ["to turn","to continue","to stop"] },
+  { en: "road", de: "die Straße", de2: ["der Weg","die Gasse","die Allee"], en2: ["path","alley","avenue"] },
+  { en: "corner", de: "die Ecke", de2: ["die Mitte","der Rand","die Seite"], en2: ["middle","edge","side"] },
+  { en: "opposite", de: "gegenüber", de2: ["neben","hinter","zwischen"], en2: ["next to","behind","between"] },
+  { en: "traffic light", de: "die Ampel", de2: ["das Stoppschild","der Kreisverkehr","das Straßenschild"], en2: ["stop sign","roundabout","street sign"] },
+  { en: "round", de: "um...herum", de2: ["durch","entlang","über"], en2: ["through","along","over"] },
+  { en: "roundabout", de: "der Kreisverkehr", de2: ["die Kreuzung","die Kurve","die Einfahrt"], en2: ["crossing","bend","entrance"] },
+  { en: "second", de: "zweite / zweiter / zweites", de2: ["erste","dritte","letzte"], en2: ["first","third","last"] },
+  { en: "on the left", de: "auf der linken Seite / links", de2: ["rechts","geradeaus","gegenüber"], en2: ["on the right","straight on","opposite"] },
+  { en: "over", de: "über", de2: ["unter","neben","zwischen"], en2: ["under","next to","between"] },
+  { en: "bridge", de: "die Brücke", de2: ["der Tunnel","der Damm","die Unterführung"], en2: ["tunnel","dam","underpass"] },
+  { en: "along", de: "entlang", de2: ["durch","um...herum","über"], en2: ["through","around","over"] },
+  { en: "car", de: "das Auto", de2: ["der Bus","das Motorrad","der Roller"], en2: ["bus","motorbike","scooter"] },
+  { en: "tram", de: "die Straßenbahn", de2: ["die U-Bahn","der Bus","der Zug"], en2: ["underground train","bus","train"] },
+  { en: "bus", de: "der Bus", de2: ["die Straßenbahn","das Taxi","der Roller"], en2: ["tram","taxi","scooter"] },
+  { en: "underground train", de: "die U-Bahn", de2: ["die Straßenbahn","der Zug","die Seilbahn"], en2: ["tram","train","cable car"] },
+  { en: "scooter", de: "der Roller", de2: ["das Motorrad","das Fahrrad","das Skateboard"], en2: ["motorbike","bicycle","skateboard"] },
+  { en: "on foot", de: "zu Fuß", de2: ["mit dem Bus","mit dem Auto","mit dem Zug"], en2: ["by bus","by car","by train"] },
+  { en: "ferry", de: "die Fähre", de2: ["das Boot","das Schiff","das U-Boot"], en2: ["boat","ship","submarine"] },
+  { en: "motorbike", de: "das Motorrad", de2: ["der Roller","das Fahrrad","das Auto"], en2: ["scooter","bicycle","car"] },
+  { en: "helicopter", de: "der Helikopter", de2: ["das Flugzeug","das Segelflugzeug","die Drohne"], en2: ["plane","glider","drone"] },
+  { en: "taxi", de: "das Taxi", de2: ["der Bus","die Straßenbahn","der Minibus"], en2: ["bus","tram","minibus"] },
+  { en: "way", de: "der Weg / die Richtung", de2: ["die Straße","die Strecke","die Route"], en2: ["road","route","path"] },
+  { en: "tourist", de: "der Tourist / die Touristin", de2: ["der Einwohner","der Reiseführer","der Einheimische"], en2: ["resident","tour guide","local"] },
+  { en: "Germany", de: "Deutschland", de2: ["Österreich","die Schweiz","Frankreich"], en2: ["Austria","Switzerland","France"] },
+  { en: "to tell", de: "sagen / erzählen", de2: ["fragen","antworten","erklären"], en2: ["to ask","to answer","to explain"] },
+  { en: "straight on", de: "geradeaus", de2: ["links","rechts","zurück"], en2: ["left","right","back"] },
+  { en: "until", de: "bis", de2: ["seit","während","nach"], en2: ["since","during","after"] },
+  { en: "pond", de: "der Teich / der Tümpel", de2: ["der See","der Fluss","das Meer"], en2: ["lake","river","sea"] },
+  { en: "to turn", de: "abbiegen", de2: ["geradeaus gehen","anhalten","umkehren"], en2: ["to go straight on","to stop","to turn back"] },
+  { en: "left", de: "links", de2: ["rechts","geradeaus","zurück"], en2: ["right","straight on","back"] },
+  { en: "into", de: "in / hinein", de2: ["aus / heraus","über","unter"], en2: ["out of","over","under"] },
+  { en: "right", de: "rechts / richtig", de2: ["links / falsch","oben","unten"], en2: ["left / wrong","above","below"] },
+];
+
+let mode = 'de-en';
+let questions = [];
+let current = 0;
+let score = 0;
+let answered = false;
+let streak = 0;
+let playerName = '';
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+// ── NAME SCREEN ──────────────────────────────────────────────
+function showNameScreen() {
+  document.getElementById('quiz-area').innerHTML = `
+    <div class="name-screen">
+      <h2>Hey, wer bist du? 👋</h2>
+      <p>Dein Name wird mit deinem Ergebnis gespeichert.</p>
+      <input class="name-input" id="nameInput" type="text"
+             placeholder="Deinen Namen eingeben..." maxlength="30" autofocus />
+      <button class="primary-btn" onclick="confirmName()">Los geht's 🚀</button>
+    </div>`;
+  document.getElementById('nameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') confirmName();
+  });
+}
+
+function confirmName() {
+  const val = document.getElementById('nameInput').value.trim();
+  if (!val) {
+    document.getElementById('nameInput').classList.add('error');
+    return;
+  }
+  playerName = val;
+  showModeScreen();
+}
+
+// ── MODE SCREEN ───────────────────────────────────────────────
+function showModeScreen() {
+  document.getElementById('quiz-area').innerHTML = `
+    <div class="mode-bar">
+      <button class="mode-btn active" id="btn-de-en" onclick="setMode('de-en')">🇩🇪 → 🇬🇧<br>Deutsch → Englisch</button>
+      <button class="mode-btn" id="btn-en-de" onclick="setMode('en-de')">🇬🇧 → 🇩🇪<br>Englisch → Deutsch</button>
+    </div>
+    <div id="inner-quiz"></div>`;
+  startQuiz();
+}
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btn-de-en').classList.toggle('active', m === 'de-en');
+  document.getElementById('btn-en-de').classList.toggle('active', m === 'en-de');
+  startQuiz();
+}
+
+function startQuiz() {
+  questions = shuffle(vocab).slice(0, 30);
+  current = 0; score = 0; streak = 0; answered = false;
+  renderQuestion();
+}
+
+function getOptions(q) {
+  const correct = mode === 'de-en' ? q.en : q.de;
+  const distractors = mode === 'de-en' ? q.en2 : q.de2;
+  return shuffle([correct, ...shuffle(distractors).slice(0, 3)]);
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  const opts = getOptions(q);
+  const question = mode === 'de-en' ? q.de : q.en;
+  const label = mode === 'de-en' ? '🇩🇪 Wie heißt das auf Englisch?' : '🇬🇧 Was bedeutet das auf Deutsch?';
+  const pct = (current / 30) * 100;
+  const correct = mode === 'de-en' ? q.en : q.de;
+
+  const target = document.getElementById('inner-quiz');
+  target.innerHTML = `
+    <div class="progress-row">
+      <span>Frage <strong style="color:var(--text)">${current + 1}</strong> / 30</span>
+      <div class="streak-badge">🔥 ${streak}</div>
+      <span class="score-badge">${score} ✓</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width:${pct}%"></div>
+    </div>
+    <div class="question-card">
+      <div class="question-label">${label}</div>
+      <div class="question-word">${question}</div>
+    </div>
+    <div class="options" id="options">
+      ${opts.map(o => `<button class="opt-btn" onclick="answer(this,'${esc(o)}','${esc(correct)}')">${o}</button>`).join('')}
+    </div>
+    <div class="feedback" id="fb"></div>
+    <button class="next-btn" id="nb" onclick="nextQ()">
+      ${current < 29 ? 'Weiter →' : 'Ergebnis sehen →'}
+    </button>`;
+  answered = false;
+}
+
+function answer(btn, chosen, correct) {
+  if (answered) return;
+  answered = true;
+
+  document.querySelectorAll('.opt-btn').forEach(b => {
+    b.disabled = true;
+    if (b.textContent.trim() === correct) b.classList.add('correct');
+  });
+
+  const fb = document.getElementById('fb');
+  if (chosen === correct) {
+    score++; streak++;
+    btn.classList.add('correct');
+    const msgs = ['Richtig! 🎯','Super! 💪','Krass! 🔥','Perfekt! ⚡','Genau! 👊','KO! 🥊'];
+    fb.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+    fb.className = 'feedback ok';
+  } else {
+    streak = 0;
+    btn.classList.add('wrong');
+    fb.textContent = `Fast — richtig wäre: ${correct}`;
+    fb.className = 'feedback nok';
+  }
+  document.getElementById('nb').style.display = 'block';
+}
+
+function nextQ() {
+  current++;
+  if (current >= 30) showResult();
+  else renderQuestion();
+}
+
+// ── RESULT ────────────────────────────────────────────────────
+function showResult() {
+  const pct = Math.round((score / 30) * 100);
+  let emoji, msg;
+  if      (pct >= 90) { emoji = '👑'; msg = `${playerName}, du bist der absolute Champ! Unaufhaltbar! 🥊`; }
+  else if (pct >= 75) { emoji = '💪'; msg = 'Richtig stark! Noch ein Durchgang und du bist unschlagbar!'; }
+  else if (pct >= 55) { emoji = '🔥'; msg = 'Gutes Ergebnis! Nochmal trainieren und du reißt das!'; }
+  else if (pct >= 35) { emoji = '🎯'; msg = 'Weiter üben — du wirst besser! Nochmal versuchen!'; }
+  else                { emoji = '📚'; msg = 'Noch viel zu lernen — aber du schaffst das! Nochmal!'; }
+
+  const now = new Date();
+  const datum   = now.toLocaleDateString('de-DE');
+  const uhrzeit = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  const modusLabel = mode === 'de-en' ? 'Deutsch → Englisch' : 'Englisch → Deutsch';
+
+  const target = document.getElementById('inner-quiz');
+  target.innerHTML = `
+    <div class="result-card">
+      <div class="result-emoji">${emoji}</div>
+      <div class="result-name">${playerName}</div>
+      <div class="result-score">${score}/30</div>
+      <div class="result-pct">${pct}% richtig</div>
+      <div class="result-modus">${modusLabel}</div>
+      <div class="result-msg">${msg}</div>
+      <div class="send-status" id="sendStatus">
+        <div class="spinner"></div> Ergebnis wird gespeichert…
+      </div>
+      <div class="result-btns">
+        <button class="restart-btn primary" onclick="startQuiz()">Nochmal 🔄</button>
+        <button class="restart-btn" onclick="setMode(mode==='de-en'?'en-de':'de-en')">Modus wechseln 🔀</button>
+      </div>
+    </div>`;
+
+  sendToSheets({ name: playerName, datum, uhrzeit, richtig: score, falsch: 30 - score, modus: modusLabel });
+}
+
+async function sendToSheets(data) {
+  const el = document.getElementById('sendStatus');
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    el.textContent = '✅ Ergebnis gespeichert!';
+    el.className = 'send-status ok';
+  } catch (err) {
+    el.textContent = '⚠️ Speichern fehlgeschlagen — kein Internet?';
+    el.className = 'send-status err';
+  }
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+showNameScreen();
+</script>
+</body>
+</html>
